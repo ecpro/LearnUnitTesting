@@ -89,5 +89,13 @@ public class OrderBOTest {
 		orderBO.cancelOrder(4);
 		
 	}
+	
+	@Test 
+	public void mockitoMatchersAndVerificationModeExample() throws SQLException, BOException {
+		Order order = new Order();
+		when(dao.create(any(Order.class))).thenReturn(1); // any Matchers example
+		assertTrue(orderBO.placeOrder(order)); 
+		verify(dao, times(1)).create(order); // verification Mode example
+	}
 
 }
