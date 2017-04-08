@@ -5,7 +5,11 @@ import java.sql.SQLException;
 import com.order.BO.exception.BOException;
 import com.order.DAO.OrderDAO;
 import com.order.dto.Order;
+/**
+ * 
+ * @author eccspro
 
+ */
 public class OrderBOImpl implements OrderBO {
 	
 	private OrderDAO dao;
@@ -22,7 +26,8 @@ public class OrderBOImpl implements OrderBO {
 		
 		return result > 0 ? true:false;
 	}
-
+	
+	
 	@Override
 	public boolean cancelOrder(int id) throws BOException {
 		int result = 0;
@@ -54,6 +59,10 @@ public class OrderBOImpl implements OrderBO {
 
 	public void setDao(OrderDAO dao) {
 		this.dao = dao;
+	}
+	
+	public String newMethod(int x , boolean y) {
+		return "";
 	}
 
 }

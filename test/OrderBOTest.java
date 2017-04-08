@@ -1,4 +1,4 @@
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.sql.SQLException;
@@ -12,6 +12,7 @@ import com.order.BO.OrderBOImpl;
 import com.order.BO.exception.BOException;
 import com.order.DAO.OrderDAO;
 import com.order.dto.Order;
+
 
 //@SuppressWarnings("deprecation")
 //@RunWith(MockitoJUnit44Runner.class)
@@ -58,10 +59,35 @@ public class OrderBOTest {
 		Order order = new Order();
 		when(dao.read(orderId)).thenReturn(order);
 		when(dao.update(order)).thenReturn(1);
-		
 		assertTrue(orderBO.cancelOrder(4));
 		verify(dao).read(4);
 		verify(dao).update(order);
+	}
+	
+	/**
+	 * verify(T mock, VerificationMode T) example
+	 * @throws SQLException
+	 * @throws BOException
+	 */
+	@Test
+	public void cancelOrderShouldNotCancelOrder() throws SQLException, BOException {
+		
+		int orderId = 4;
+		Order order = new Order();
+		when(dao.read(orderId)).thenReturn(order);
+		when(dao.update(order)).thenReturn(0);
+		assertFalse(orderBO.cancelOrder(4));
+		verify(dao,times(4)).read(4);
+		verify(dao).update(order);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test(expected=BOException.class)
+	public void cancelOrderShouldThrowException() throws SQLException, BOException {
+		int orderId = 4;
+		when(dao.read(orderId)).thenThrow(SQLException.class);
+		orderBO.cancelOrder(4);
+		
 	}
 
 }
