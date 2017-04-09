@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
@@ -14,29 +15,28 @@ import org.mockito.Spy;
 public class ListTest {
 	
 	// @Spy is used for partial stubbing 
-	
-	@Spy
+	// @Mock is used for complete stubbing
+	@Mock
 	List<String> myList = new ArrayList<String>(); 
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
+		myList.add("Piyush");
+		myList.add("Ravi");
 	}
 
 	@Test
 	public void test() {
 		
-		/**
-		 * spy enables a partial mocking of object. If we have two method inside a object then if the object is spied on a particular method
-		 * then the other method is not mocked and when called the actual method will be called.
-		 */
+		// stub example
+		Mockito.when(myList.size()).thenReturn(4);
+		assertEquals(4, myList.size());
 		
-		Mockito.doReturn(3).when(myList).size(); // here only size() method is spied on so other methods will behave as usual
-		assertSame(3, myList.size());
+		// to call the acutal method and not stub example
 		
-		Mockito.doReturn("Piyush").when(myList).get(0);
-		assertEquals("Piyush", myList.get(0));
-		
+		Mockito.when(myList.get(1)).thenCallRealMethod();
+		assertEquals("Ravi", myList.get(1));
 		
 	}
 
